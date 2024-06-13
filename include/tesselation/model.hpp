@@ -4,8 +4,10 @@
 
 #include "model/systems/cameraSystem.hpp"
 #include "model/systems/pointsSystem.hpp"
-
+#include "model/systems/tesselationPlaneSystem.hpp"
 #include "model/systems/shaders/shaderRepository.hpp"
+#include "model/systems/c0SurfaceSystem.hpp"
+#include "model/systems/c0PatchesSystem.hpp"
 
 #include "model/components/scale.hpp"
 #include "model/components/rotation.hpp"
@@ -57,6 +59,8 @@ private:
 
     std::shared_ptr<CameraSystem> cameraSys;
     std::shared_ptr<PointsSystem> pointsSys;
+    std::shared_ptr<C0SurfaceSystem> c0SurfaceSystem;
+    std::shared_ptr<C0PatchesSystem> c0PatchesSystem;
 
     Entity cube, water, duck;
 

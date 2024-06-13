@@ -8,6 +8,7 @@
 #include <tesselation/model/components/cameraParameters.hpp>
 
 #include <tesselation/model/systems/toUpdateSystem.hpp>
+#include <tesselation/model/systems/controlPointsSystem.hpp>
 
 #include <stdexcept>
 
@@ -22,9 +23,16 @@ Model::Model(int viewport_width, int viewport_height)
     CameraSystem::RegisterSystem(coordinator);
     ToUpdateSystem::RegisterSystem(coordinator);
     PointsSystem::RegisterSystem(coordinator);
+    TesselationPlaneSystem::RegisterSystem(coordinator);
+    C0SurfaceSystem::RegisterSystem(coordinator);
+    C0PatchesSystem::RegisterSystem(coordinator);
+    ControlPointsSystem::RegisterSystem(coordinator);
 
     cameraSys = coordinator.GetSystem<CameraSystem>();
     pointsSys = coordinator.GetSystem<PointsSystem>();
+    c0SurfaceSystem = coordinator.GetSystem<C0SurfaceSystem>();
+    c0PatchesSystem = coordinator.GetSystem<C0PatchesSystem>();
+    auto controlPointsSystem = coordinator.GetSystem<ControlPointsSystem>();
 
     CameraParameters params {
         .target = Position(0.0f),
@@ -37,13 +45,16 @@ Model::Model(int viewport_width, int viewport_height)
 
     cameraSys->Init(params, Position(0.0f, 0.0f, 10.0f));
     pointsSys->Init(&shadersRepo);
+    c0PatchesSystem->Init(&shadersRepo);
+    controlPointsSystem->Init();
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
     glEnable( GL_PROGRAM_POINT_SIZE );
     glPointSize(10.0f);
+
+    Entity plane = c0SurfaceSystem->CreateSurface(Position(-0.5f, 0.f, 0.5f));
 }
 
 
@@ -51,11 +62,7 @@ void Model::RenderFrame()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    c0PatchesSystem->Render();
 }
 
 
