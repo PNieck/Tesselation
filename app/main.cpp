@@ -4,7 +4,7 @@
 
 int main()
 {
-    Window window(600, 400, "Modeler");
+    Window window(600, 400, "Tesselation");
 
     window.RunMessageLoop();
 

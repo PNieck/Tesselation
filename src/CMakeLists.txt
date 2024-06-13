@@ -24,15 +24,15 @@ target_include_directories(ecs PUBLIC ../include)
 file(GLOB_RECURSE HEADER_LIST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/include/tesselation/*.hpp")
 file(GLOB_RECURSE SOURCE_LIST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/tesselation/*.cpp")
 
-add_library(duck_lib ${SOURCE_LIST} ${HEADER_LIST})
-target_include_directories(duck_lib PUBLIC ../include)
-target_link_libraries(duck_lib PRIVATE glfw glad imgui ecs algebra stb_image)
+add_library(tesselation_lib ${SOURCE_LIST} ${HEADER_LIST})
+target_include_directories(tesselation_lib PUBLIC ../include)
+target_link_libraries(tesselation_lib PRIVATE glfw glad imgui ecs algebra stb_image)
 
 # Copy shaders
 add_custom_target(copy_shaders
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/shaders ${CMAKE_BINARY_DIR}/shaders
 )
-add_dependencies(duck_lib copy_shaders)
+add_dependencies(tesselation_lib copy_shaders)
 
 # Copy resources
 # add_custom_target(copy_resources

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(The-duck  VERSION 0.1
-                  DESCRIPTION "Duck floating in the pond"
-                  LANGUAGES CXX)
+project(Tesselation VERSION 0.1
+                    DESCRIPTION "Duck floating in the pond"
+                    LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
