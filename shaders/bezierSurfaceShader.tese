@@ -1,6 +1,6 @@
 #version 410 core
 
-layout (isolines, equal_spacing) in;
+layout (quads, fractional_odd_spacing, ccw) in;
 
 uniform mat4 MVP;
 

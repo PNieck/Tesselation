@@ -70,6 +70,7 @@ void C0PatchesSystem::Render() const
     shader.SetMVP(cameraMtx);
 
     glPatchParameteri(GL_PATCH_VERTICES, 16);
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
     for (auto const entity: entities) {
         if (HasPolygon(entity))
@@ -79,9 +80,12 @@ void C0PatchesSystem::Render() const
         mesh.Use();
 
         auto const& density = coordinator->GetComponent<C0SurfaceDensity>(entity);
-        float v[] = {5.f, 64.f, 64.f, 64.f};
-        v[0] = static_cast<float>(density.GetDensity());
-        glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, v);
+        float outerDes[] = {5.f, 5.f, 5.f, 5.f};
+        //v[0] = static_cast<float>(density.GetDensity());
+        glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, outerDes);
+
+        float innerDes[] = {3.f, 3.f};
+        glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, innerDes);
 
 	    glDrawElements(GL_PATCHES, mesh.GetElementsCnt(), GL_UNSIGNED_INT, 0);
     }
@@ -190,16 +194,6 @@ std::vector<uint32_t> C0PatchesSystem::GenerateIndices(const C0SurfacePatches& p
         for (int patchCol=0; patchCol < patches.Cols(); patchCol++) {
             for (int rowInPatch=0; rowInPatch < C0SurfacePatches::RowsInPatch; rowInPatch++) {
                 for (int colInPatch=0; colInPatch < C0SurfacePatches::ColsInPatch; colInPatch++) {
-
-                    int globCol = patchCol * (C0SurfacePatches::ColsInPatch - 1) + colInPatch;
-                    int globRow = patchRow * (C0SurfacePatches::RowsInPatch - 1) + rowInPatch;
-
-                    result.push_back(globCol * patches.PointsInRow() + globRow);
-                }
-            }
-
-            for (int colInPatch=0; colInPatch < C0SurfacePatches::ColsInPatch; colInPatch++) {
-                for (int rowInPatch=0; rowInPatch < C0SurfacePatches::RowsInPatch; rowInPatch++) {
 
                     int globCol = patchCol * (C0SurfacePatches::ColsInPatch - 1) + colInPatch;
                     int globRow = patchRow * (C0SurfacePatches::RowsInPatch - 1) + rowInPatch;
