@@ -53,6 +53,18 @@ public:
     static inline constexpr ComponentId GetComponentId()
         { return ComponentsManager::GetComponentId<Comp>(); }
 
+    inline void SetOuterTesselationLevel(int level)
+        { c0PatchesSystem->SetOuterTesselationLevel(level); }
+
+    inline void SetInnerTesselationLevel(int level)
+        { c0PatchesSystem->SetInnerTesselationLevel(level); }
+
+    inline int GetOuterTesselationLevel() const
+        { return c0PatchesSystem->GetOuterTesselationLevel(); }
+
+    inline int GetInnerTesselationLevel() const
+        { return c0PatchesSystem->GetInnerTesselationLevel(); }
+
 private:
     Coordinator coordinator;
     ShaderRepository shadersRepo;

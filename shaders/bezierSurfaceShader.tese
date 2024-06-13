@@ -22,8 +22,6 @@ void main()
     float u = gl_TessCoord.x;
     float v = gl_TessCoord.y;
 
-    v *= float(gl_TessLevelOuter[0]) / float(gl_TessLevelOuter[0] - 1);
-
     // Bernstein polynomials
     vec4 bu = CubicBernsteinPolynomials(u);
     vec4 bv = CubicBernsteinPolynomials(v);

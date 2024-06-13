@@ -72,20 +72,24 @@ void C0PatchesSystem::Render() const
     glPatchParameteri(GL_PATCH_VERTICES, 16);
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
+    float outerDes[4];
+    for(int i=0; i < 4; i++)
+        outerDes[i] = float(outerLevel);
+
+    glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, outerDes);
+
+    float innerDes[2];
+    for(int i=0; i < 2; i++)
+        innerDes[i] = float(innerLevel);
+
+    glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, innerDes);
+
     for (auto const entity: entities) {
         if (HasPolygon(entity))
             polygonsToDraw.push(entity);
 
         auto const& mesh = coordinator->GetComponent<Mesh>(entity);
-        mesh.Use();
-
-        auto const& density = coordinator->GetComponent<C0SurfaceDensity>(entity);
-        float outerDes[] = {5.f, 5.f, 5.f, 5.f};
-        //v[0] = static_cast<float>(density.GetDensity());
-        glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, outerDes);
-
-        float innerDes[] = {3.f, 3.f};
-        glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, innerDes);
+        mesh.Use();    
 
 	    glDrawElements(GL_PATCHES, mesh.GetElementsCnt(), GL_UNSIGNED_INT, 0);
     }

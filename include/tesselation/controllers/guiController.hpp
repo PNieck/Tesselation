@@ -12,4 +12,9 @@ public:
     inline bool WantCaptureMouse()
         { return ImGui::GetIO().WantCaptureMouse; }
 
+    inline void SetOuterTesselationLevel(int level)
+        { model.SetOuterTesselationLevel(level); }
+
+    inline void SetInnerTesselationLevel(int level)
+        { model.SetInnerTesselationLevel(level); }
 };

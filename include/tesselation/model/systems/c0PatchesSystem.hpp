@@ -29,8 +29,23 @@ public:
 
     void Render() const;
 
+    inline void SetOuterTesselationLevel(int level)
+        { innerLevel = level; }
+
+    inline void SetInnerTesselationLevel(int level)
+        { outerLevel = level; }
+
+    inline int GetOuterTesselationLevel() const
+        { return innerLevel; }
+
+    inline int GetInnerTesselationLevel() const
+        { return outerLevel; }
+
 private:
     ShaderRepository* shaderRepo;
+
+    int innerLevel;
+    int outerLevel;
 
     inline bool HasPolygon(Entity entity) const
         { return coordinator->GetEntityComponents(entity).contains(coordinator->GetComponentID<PatchesPolygonMesh>()); }

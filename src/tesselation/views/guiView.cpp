@@ -46,6 +46,18 @@ void GuiView::RenderGui() const
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    ImGui::Begin("Tesselation");
+
+    int v = model.GetInnerTesselationLevel();
+    if (ImGui::InputInt("Inner Tesselation level", &v))
+        controller.SetInnerTesselationLevel(v);
+
+    v = model.GetOuterTesselationLevel();
+    if (ImGui::InputInt("Outer Tesselation level", &v))
+        controller.SetOuterTesselationLevel(v);
+
+    ImGui::End();
+
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
